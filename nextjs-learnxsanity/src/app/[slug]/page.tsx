@@ -3,11 +3,13 @@ import Image from 'next/image'
 import {getArtistByArtworkId, getArtworkBySlug} from '@/lib/sanity'
 
 export default async function ArtworkPage({ params }: { params: { slug: string } }) {
+  if (!params || !params.slug) {
+    return <div>Error: No slug found</div>;
+  }
+
   const artWork = await getArtworkBySlug(params.slug)
 
-  console.log(artWork.id)
   const artist = await getArtistByArtworkId(artWork._id)
-  console.log(artist)
   return (
     <main className="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4">
       <Link href="/" className="hover:underline">
