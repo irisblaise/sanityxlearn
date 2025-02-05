@@ -1,9 +1,13 @@
 import Link from "next/link";
 import Image from 'next/image'
-import {getArtworkBySlug} from '@/lib/sanity'
+import {getArtistByArtworkId, getArtworkBySlug} from '@/lib/sanity'
 
 export default async function ArtworkPage({ params }: { params: { slug: string } }) {
   const artWork = await getArtworkBySlug(params.slug)
+
+  console.log(artWork.id)
+  const artist = await getArtistByArtworkId(artWork._id)
+  console.log(artist)
   return (
     <main className="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4">
       <Link href="/" className="hover:underline">
@@ -22,6 +26,7 @@ export default async function ArtworkPage({ params }: { params: { slug: string }
       <div className="prose">
         <p>Published: {new Date(artWork.publishedAt).toLocaleDateString()}</p>
         <p>{artWork.description} </p>
+        <p>Artist: {artist[0].name}</p>
       </div>
     </main>
   );
