@@ -1,8 +1,5 @@
-import { createClient } from "next-sanity";
+import { GraphQLClient } from "graphql-request";
 
-export const sanityClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
-  apiVersion: "2024-01-01",
-  useCdn: false,
-});
+export const SANITY_GRAPHQL_ENDPOINT = `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.api.sanity.io/v1/graphql/${process.env.NEXT_PUBLIC_SANITY_DATASET}/default`;
+
+export const sanityClient = new GraphQLClient(SANITY_GRAPHQL_ENDPOINT);

@@ -2,7 +2,9 @@ import Link from "next/link";
 import {getArtwork} from '@/lib/sanity'
 
 export default async function IndexPage() {
-  const artworks = await getArtwork();
+  const artworks: any = await getArtwork();
+
+  console.log(artworks)
 
   return (
     <main className="container mx-auto min-h-screen max-w-3xl p-8">
@@ -10,11 +12,10 @@ export default async function IndexPage() {
       <ul className="flex flex-col gap-y-4">
         {/* todo: fix typing */}
         {/* eslint-disable-next-line */}
-        {artworks.map((artwork: any) => (
+        {artworks.allArtwork.map((artwork: any) => (
           <li className="hover:underline" key={artwork._id}>
             <Link href={`/${artwork.slug.current}`}>
               <h2 className="text-xl font-semibold">{artwork.title}</h2>
-              <p>{new Date(artwork.publishedAt).toLocaleDateString()}</p>
             </Link>
           </li>
         ))}
