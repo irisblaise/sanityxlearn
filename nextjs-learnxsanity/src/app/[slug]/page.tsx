@@ -2,12 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { getArtworkBySlug } from "@/lib/sanity";
 
-export default async function ArtworkPage({ params }: { params: { slug: string } }) {
-  if (!params?.slug) {
+export default async function ArtworkPage({ params }: { params: Promise<{ slug: string; }> }) {
+  const id = await params
+  if (!id?.slug) {
     return <div>Error: No slug provided</div>;
   }
 
-  const artWork = await getArtworkBySlug(params.slug);
+  const artWork = await getArtworkBySlug(id.slug);
 
   if (!artWork) {
     return <div>Error: Artwork not found</div>;
