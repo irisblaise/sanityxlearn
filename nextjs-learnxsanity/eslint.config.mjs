@@ -11,6 +11,22 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+
+  // Ignore specific files and directories
+  {
+    ignores: [
+      "**/.next/",
+      "**/out/",
+      "**/storybook-static/",
+      "**/next-env.d.ts",
+      "**/src/generated/gql.ts",
+      "**/src/generated/graphql.ts",
+      "**/vendor/",
+      "**/public/",
+      "**/node_modules/",
+      "**/plopfile.mjs",
+    ],
+  },
 ];
 
 export default eslintConfig;

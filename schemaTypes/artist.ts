@@ -26,9 +26,13 @@ export const artist = defineType({
     },
     {
       name: 'artworks',
-      title: 'Artworks',
       type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'artwork' }] }]
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'artwork' }]
+        }
+      ]
     },
     {
       name: 'contact',

@@ -1,5 +1,7 @@
-import {gql} from 'graphql-request'
-import { sanityClient} from '@/sanity/client'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { gql } from 'graphql-request';
+import { sanityClient } from '@/sanity/client';
 
 const GET_ALL_ARTWORKS = gql`
     query GetAllArtworks {
@@ -47,7 +49,7 @@ export async function getArtworkBySlug(slug: string) {
   const variables = { slug };
 
   try {
-    const data = await sanityClient.request(query, variables);
+    const data: any = await sanityClient.request(query, variables);
     return data.allArtwork[0];
   } catch (error) {
     console.error('Error fetching artwork by slug:', error);
@@ -66,35 +68,18 @@ const GET_ALL_ARTISTS = gql`
                 }
             }
             artworks {
-                _ref
+                _id
+                title
+                price
             }
-            contact
+            contact {
+                email
+                phone
+            }
         }
     }
 `;
 
 export async function getArtist() {
   return sanityClient.request(GET_ALL_ARTISTS);
-}
-
-const GET_ARTIST_BY_ARTWORK_ID = gql`
-    query GetArtistByArtworkId($artworkId: ID!) {
-        allArtist(where: { artworks: { _ref: { eq: $artworkId } } }) {
-            name
-            bio
-            profileImage {
-                asset {
-                    url
-                }
-            }
-            artworks {
-                _ref
-            }
-            contact
-        }
-    }
-`;
-
-export async function getArtistByArtworkId(artworkId: string) {
-  return sanityClient.request(GET_ARTIST_BY_ARTWORK_ID, { artworkId });
 }
