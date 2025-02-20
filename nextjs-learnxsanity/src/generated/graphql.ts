@@ -77,6 +77,7 @@ export type Artwork = Document & {
   _type?: Maybe<Scalars['String']['output']>;
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  artist?: Maybe<Artist>;
   category?: Maybe<Category>;
   description?: Maybe<Scalars['String']['output']>;
   /** Specify dimensions (e.g., 24x36 inches, 60x90 cm) */
@@ -102,6 +103,7 @@ export type ArtworkFilter = {
   _rev?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
+  artist?: InputMaybe<ArtistFilter>;
   category?: InputMaybe<CategoryFilter>;
   description?: InputMaybe<StringFilter>;
   dimensions?: InputMaybe<StringFilter>;
@@ -395,6 +397,7 @@ export type Exhibition = Document & {
   description?: Maybe<Scalars['String']['output']>;
   endDate?: Maybe<Scalars['Date']['output']>;
   location?: Maybe<Scalars['String']['output']>;
+  slug?: Maybe<Slug>;
   startDate?: Maybe<Scalars['Date']['output']>;
   title?: Maybe<Scalars['String']['output']>;
 };
@@ -411,6 +414,7 @@ export type ExhibitionFilter = {
   description?: InputMaybe<StringFilter>;
   endDate?: InputMaybe<DateFilter>;
   location?: InputMaybe<StringFilter>;
+  slug?: InputMaybe<SlugFilter>;
   startDate?: InputMaybe<DateFilter>;
   title?: InputMaybe<StringFilter>;
 };
@@ -425,6 +429,7 @@ export type ExhibitionSorting = {
   description?: InputMaybe<SortOrder>;
   endDate?: InputMaybe<SortOrder>;
   location?: InputMaybe<SortOrder>;
+  slug?: InputMaybe<SlugSorting>;
   startDate?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
 };
@@ -1110,12 +1115,24 @@ export type GetAllArtworksQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAllArtworksQuery = { __typename?: 'RootQuery', allArtwork: Array<{ __typename?: 'Artwork', _id?: string | null, title?: string | null, description?: string | null, price?: number | null, images?: Array<{ __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null }> };
 
+export type GetAllExhibitionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllExhibitionsQuery = { __typename?: 'RootQuery', allExhibition: Array<{ __typename?: 'Exhibition', _id?: string | null, title?: string | null, startDate?: any | null, endDate?: any | null, location?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null }> };
+
+export type GetExhibitionBySlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type GetExhibitionBySlugQuery = { __typename?: 'RootQuery', allExhibition: Array<{ __typename?: 'Exhibition', _id?: string | null, title?: string | null, startDate?: any | null, endDate?: any | null, location?: string | null, description?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, artworks?: Array<{ __typename?: 'Artwork', _id?: string | null, title?: string | null, description?: string | null, images?: Array<{ __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null> | null, artist?: { __typename?: 'Artist', name?: string | null, bio?: string | null } | null } | null> | null }> };
+
 export type GetArtworkBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type GetArtworkBySlugQuery = { __typename?: 'RootQuery', allArtwork: Array<{ __typename?: 'Artwork', _id?: string | null, title?: string | null, description?: string | null, medium?: string | null, year_created?: number | null, dimensions?: string | null, price?: number | null, imageUrl?: Array<{ __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null> | null }> };
+export type GetArtworkBySlugQuery = { __typename?: 'RootQuery', allArtwork: Array<{ __typename?: 'Artwork', _id?: string | null, title?: string | null, description?: string | null, medium?: string | null, year_created?: number | null, dimensions?: string | null, price?: number | null, imageUrl?: Array<{ __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null> | null, artist?: { __typename?: 'Artist', _id?: string | null, name?: string | null, bio?: string | null, profileImage?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null }> };
 
 export type GetAllArtistsQueryVariables = Exact<{ [key: string]: never; }>;
 

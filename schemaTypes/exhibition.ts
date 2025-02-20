@@ -8,7 +8,15 @@ export const exhibition = defineType({
     {
       name: 'title',
       title: 'Exhibition Title',
-      type: 'string'
+      type: 'string',
+      validation: Rule => Rule.required()
+    },
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: { source: 'title', maxLength: 96 },
+      validation: Rule => Rule.required()
     },
     {
       name: 'startDate',

@@ -6,6 +6,13 @@ export const artwork = defineType({
   type: 'document',
   fields: [
     {
+      name: 'artist',
+      title: 'Artist',
+      type: 'reference',
+      to: [{ type: 'artist' }],
+      validation: Rule => Rule.required(),
+    },
+    {
       name: 'title',
       title: 'Title',
       type: 'string',

@@ -26,6 +26,61 @@ export async function getArtwork() {
   return sanityClient.request(GET_ALL_ARTWORKS);
 }
 
+const GET_ALL_EXHIBITIONS = gql`
+    query GetAllExhibitions {
+        allExhibition {
+            _id
+            title
+            startDate
+            endDate
+            location
+            slug {
+                current
+            }
+        }
+    }
+`;
+
+const GET_EXHIBITION_BY_SLUG = gql`
+    query GetExhibitionBySlug($slug: String!) {
+        allExhibition(where: { slug: { current: { eq: $slug } } }) {
+            _id
+            title
+            startDate
+            endDate
+            location
+            description
+            slug {
+                current
+            }
+            artworks {
+                _id
+                title
+                description
+                images {
+                    asset {
+                        url
+                    }
+                }
+                artist {
+                    name
+                    bio
+                }
+            }
+        }
+    }
+`;
+
+export async function getAllExhibitions() {
+    return sanityClient.request(GET_ALL_EXHIBITIONS);
+}
+
+export async function getExhibitionBySlug(slug: string) {
+    const variables = { slug };
+    const data: any = await sanityClient.request(GET_EXHIBITION_BY_SLUG, variables);
+    return data.allExhibition[0];
+}
+
 export async function getArtworkBySlug(slug: string) {
   const query = gql`
       query GetArtworkBySlug($slug: String!) {
@@ -42,6 +97,16 @@ export async function getArtworkBySlug(slug: string) {
               year_created
               dimensions
               price
+              artist {
+                  _id
+                  name
+                  bio
+                  profileImage {
+                      asset {
+                          url
+                      }
+                  }
+              }
           }
       }
   `;
@@ -55,6 +120,29 @@ export async function getArtworkBySlug(slug: string) {
     console.error('Error fetching artwork by slug:', error);
     throw error;
   }
+}
+
+interface Artist {
+  name: string;
+  bio: string;
+  profileImage: {
+    asset: {
+      url: string;
+    };
+  };
+  artworks: {
+    _id: string;
+    title: string;
+    price: number;
+  }[];
+  contact: {
+    email: string;
+    phone: string;
+  };
+}
+
+interface GetAllArtistsResponse {
+  allArtist: Artist[];
 }
 
 const GET_ALL_ARTISTS = gql`
@@ -80,6 +168,6 @@ const GET_ALL_ARTISTS = gql`
     }
 `;
 
-export async function getArtist() {
+export async function getArtist(): Promise<GetAllArtistsResponse> {
   return sanityClient.request(GET_ALL_ARTISTS);
 }

@@ -81,6 +81,29 @@ export default async function ArtworkPage({ params }: { params: Promise<{ slug: 
                   <p className="text-xs uppercase tracking-wider text-zinc-400 mb-4">About the piece</p>
                   <p className="text-zinc-600 leading-relaxed text-lg">{artWork.description}</p>
                 </div>
+
+                {artWork.artist && (
+                  <div className="border-t border-zinc-200 pt-8">
+                    <p className="text-xs uppercase tracking-wider text-zinc-400 mb-4">About the Artist</p>
+                    <div className="flex items-start space-x-4">
+                      {artWork.artist.profileImage && (
+                        <div className="flex-shrink-0">
+                          <Image
+                            src={artWork.artist.profileImage.asset.url}
+                            alt={artWork.artist.name}
+                            width={64}
+                            height={64}
+                            className="rounded-full"
+                          />
+                        </div>
+                      )}
+                      <div>
+                        <h3 className="text-xl font-medium text-zinc-900 mb-2">{artWork.artist.name}</h3>
+                        <p className="text-zinc-600 leading-relaxed">{artWork.artist.bio}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

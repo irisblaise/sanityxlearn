@@ -2,9 +2,20 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Navigation() {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Prevent hydration mismatch by not rendering navigation links until mounted
+  if (!mounted) {
+    return null;
+  }
 
   const navigation = [
     { name: 'Artworks', href: '/artworks' },
